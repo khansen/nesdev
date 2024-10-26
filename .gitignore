@@ -1,0 +1,5 @@
+*.nes
+*.o
+*.sav
+*.sym
+.DS_Store

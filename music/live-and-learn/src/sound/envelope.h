@@ -15,7 +15,7 @@ dest    .byte   ; Destination volume
 hold    .byte   ; Hold length at destination
 master  .byte
 scaled_vol .byte
-padding .byte[3] ; to get same size as track_state
+padding .byte[4] ; to get same size as track_state
 .ends
 
 ; Flags for envelope_state.phase

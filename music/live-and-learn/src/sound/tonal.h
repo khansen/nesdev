@@ -13,6 +13,7 @@ effect          .effect_state
 square          .square_state
 .ends
 instrument      .byte
+pad0            .byte
 .ends
 
 .endif  ; !TONAL_H

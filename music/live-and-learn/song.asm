@@ -39,7 +39,7 @@ db $00,$00,$00,$00,$00,$00 ; 14 triangle (short)
 env0:
 db $F0
 db $00,$F0,$FF
-db $60,$00,$00
+db $80,$00,$00
 db $FF,$FF
 env3:
 db $F0
@@ -48,7 +48,7 @@ db $FF,$FF
 env4:
 db $F0
 db $00,$F0,$01
-db $24,$00,$00
+db $22,$00,$00
 db $FF,$FF
 env5:
 db $F0
@@ -90,13 +90,13 @@ db $30,$00,$00
 db $FF,$FF
 env10:
 db $F0
-db $00,$F0,$07
+db $00,$F0,$06
 db $80,$00,$00
 db $FF,$FF
 env11:
 db $F0
 db $00,$F0,$03
-db $80,$00,$00
+db $F0,$00,$00
 db $FF,$FF
 
 .include "song.inc"

@@ -80,6 +80,17 @@ pattern_row_callback .ptr
 .extrn time_mode:byte
 .endif
 
+tick_bias:
+;.db 1,0,1,0
+;.db 0,1,0,1,0,1,1,1
+;.db 1,0,1,0,1,1,0,1
+;.db 0,1,1,0,1,1,0,1
+;.db 0,1,0,1,1,0,1,1
+.db 1,0,1,0,1,1,0,1
+;4+5+4+5+4+4+5+4=35
+
+TICK_BIAS_LENGTH .equ 8
+
 ; Gets the next byte from track's order data,
 ; and increments the order position.
 ; Params:   X = offset of track structure
@@ -159,8 +170,17 @@ pattern_row_callback .ptr
   +
 .endif
 ; next row
+    ldy tracks.tick_bias_pos,x
     lda #0
+    clc
+    adc tick_bias,y
     sta tracks.tick,x   ; reset tick
+    iny
+    cpy #TICK_BIAS_LENGTH
+    bcc +
+    ldy #0
+  + tya
+    sta tracks.tick_bias_pos,x
     inc tracks.pattern.row,x
 ; check if reached end of pattern
     lda tracks.pattern.row,x
@@ -358,6 +378,7 @@ pattern_row_callback .ptr
     sta tracks.pattern.loop_count,x
     lda #0
     sta tracks.pattern.row,x
+    sta tracks.tick_bias_pos,x
   + txa
     clc
     adc #sizeof track_state

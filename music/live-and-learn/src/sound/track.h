@@ -25,6 +25,7 @@ transpose   .byte               ; Note transpose
 .struc track_state
 speed               .byte       ; Number of ticks (frames) per row inc
 tick                .byte       ; Tick in row
+tick_bias_pos       .byte
 order               .order_state
 pattern             .pattern_state
 .ends

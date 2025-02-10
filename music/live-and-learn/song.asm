@@ -90,12 +90,12 @@ db $30,$00,$00
 db $FF,$FF
 env10:
 db $F0
-db $00,$F0,$06
+db $00,$F0,$07
 db $80,$00,$00
 db $FF,$FF
 env11:
 db $F0
-db $00,$F0,$03
+db $00,$F0,$04
 db $F0,$00,$00
 db $FF,$FF
 

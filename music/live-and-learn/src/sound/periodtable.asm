@@ -6,7 +6,7 @@
 .public period_table_lo
 .public period_table_hi
 
-.if 1 ; PAL
+.if 0 ; PAL
 period_table_lo:
 .db                                     $60,$F6,$92
 .db $33,$DA,$86,$36,$EB,$A5,$62,$23,$E7,$AF,$7A,$48

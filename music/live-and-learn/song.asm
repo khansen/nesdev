@@ -48,7 +48,7 @@ db $FF,$FF
 env4:
 db $F0
 db $00,$F0,$01
-db $22,$00,$00
+db $20,$00,$00
 db $FF,$FF
 env5:
 db $F0

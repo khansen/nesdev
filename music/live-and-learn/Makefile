@@ -54,7 +54,9 @@ SCRIPTFILE = link.s
 # the name of the final binary (NES ROM)
 BINFILE = $(PROGRAM).nes
 
-$(BINFILE): $(OBJS) $(SCRIPTFILE)
+CHRS = font.bin flag.bin orb.bin frame.bin spotlite.bin star.bin
+
+$(BINFILE): $(OBJS) $(SCRIPTFILE) $(CHRS)
 	$(XLNK) $(SCRIPTFILE)
 
 periodtable.o: $(BASESRCDIR)/sound/periodtable.asm

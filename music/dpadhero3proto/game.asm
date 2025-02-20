@@ -278,6 +278,7 @@ target_data_timer_table:
 .proc game_init ; E0A5
 ; TODO
 ;    jsr wipeout
+    jsr screen_off
     jsr reset_timers
 
     ldx #4 ; player 1
@@ -422,11 +423,48 @@ target_data_timer_table:
 ;    lda clips+1,y ; marker
   + jsr init_target_data
 
+    ldcay @@tilemap_data
+    jsr write_ppu_data_at
+
     lda #0
     jsr mixer_set_muted_channels
     lda #0
     jsr start_song ; mute
-    rts
+    jmp screen_on
+
+.charmap "song.tbl"
+@@tilemap_data:
+.incbin "gameboyskintilemap.bin"
+.db $20,$00,$60,$00
+.db $20,$20,$60,$00
+.db $23,$00,$01,$00
+.db $23,$1C,$65,$00
+.db $23,$58,$49,$00
+.db $23,$78,$68,$00
+.db $23,$80,$60,$00
+.db $23,$A0,$60,$00
+; packnam --width=20 --vram-address=0x2086 packchr.nam
+.incbin "gamescreentilemap.bin"
+; attribute data
+.db $23,$D0,$01,$40 ; battery indicator
+.db $23,$C9,$01,$88 ; play field
+.db $23,$CA,$44,$AA ; play field
+.db $23,$CE,$01,$22 ; play field
+.db $23,$D1,$01,$88 ; play field
+.db $23,$D2,$44,$AA ; play field
+.db $23,$D6,$01,$22 ; play field
+.db $23,$D9,$01,$88 ; play field
+.db $23,$DA,$44,$AA ; play field
+.db $23,$DE,$01,$22 ; play field
+.db $23,$E1,$01,$88 ; play field
+.db $23,$E2,$44,$AA ; play field
+.db $23,$E6,$01,$22 ; play field
+.db $23,$E9,$01,$08 ; play field
+.db $23,$EA,$44,$0A ; play field
+.db $23,$EE,$01,$02 ; play field
+.db 0
+
+.char "MADE BY KENT HANSEN" : .db 0
 .endp
 
 .proc inc_play_count

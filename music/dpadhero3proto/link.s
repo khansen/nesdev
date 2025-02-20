@@ -44,6 +44,8 @@ copy{file=gameboyskintiles.bin}
 copy{file=gamescreentiles.bin}
 # 16 tiles
 copy{file=hextiles.bin}
+# 7
+copy{file=pushstarttiles.bin}
 # 28 tiles
 copy{file=progressindicatortiles.bin}
 bank{size=$1000}

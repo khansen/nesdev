@@ -5,9 +5,14 @@
 .include <common/ldc.h>
 .include <common/sprite.h>
 
+.dataseg zeropage
+
+random .byte[2] ; TODO: fix bug when crossing page boundary
+
 .codeseg
 
 .public genesis
+.public prng
 
 .extrn screen_on:proc
 .extrn set_play_note_callback:proc
@@ -17,6 +22,7 @@
 .extrn write_palette:proc
 .extrn game_init:proc
 .extrn game_handler:proc
+.extrn frame_count:proc
 
 .proc genesis
     jsr screen_off
@@ -80,13 +86,22 @@
   jmp progbuf_push
   @@start:
   lda frame_count
-;  sta random ; initialize seed
+  sta random ; initialize seed
   jsr game_init
   progbuf_load game_handler
   jmp progbuf_push
  .endp
 
 .proc noop
+  rts
+.endp
+
+.proc prng
+  lda random
+  lsr
+  bcc +
+  eor #$B4
++ sta random
   rts
 .endp
 

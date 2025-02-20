@@ -5,7 +5,7 @@ copy{file=header.bin}
 # Bank 0
 bank{size=$4000,origin=$C000}
 link{file=song.o}
-link{file=songtargets.o}
+link{file=songcues.o}
 link{file=mutesong.o}
 link{file=progbuf.o}
 link{file=bitmasktable.o}

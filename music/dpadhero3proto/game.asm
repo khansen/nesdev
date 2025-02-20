@@ -170,6 +170,7 @@ targets_2 .target_2[MAX_TARGETS]
 .public game_init
 .public game_handler
 
+.extrn prng:proc
 .extrn start_song:proc
 .extrn maybe_start_song:proc
 .extrn pause_music:proc
@@ -193,13 +194,11 @@ targets_2 .target_2[MAX_TARGETS]
 .extrn set_timer_callback:proc
 .extrn reset:label
 
-.extrn song_easy:label
-.extrn song_normal:label
-.extrn song_hard:label
+.extrn song_:label
 
 target_data_table:
 ; Bank, song, song start delay, data pointers
-.db 0, 1, 45, 20, 15, 12, 10, 8, 7, 6 : .dw song_easy, song_normal, song_hard
+.db 0, 1, 44, 20, 15, 12, 10, 8, 7, 6 : .dw song_, song_, song_
 
 ; Reads the next N bits from the target data stream.
 ; In: A = number of bits to read (1..8)
@@ -901,11 +900,11 @@ lane_slot_y_coords:
 .db $04,$80 ; 4.5
 .endp
 
-; Reads target data and adds targets to lanes accordingly.
+; Reads cue data and adds targets to lanes accordingly.
 ; Sets the timer for the next data processing.
 .proc process_target_data
     lda #4
-    jsr read_target_data_bits ; lanes specifier
+    jsr read_target_data_bits ; difficulty level
     cmp #$0E
     bcc @@process_row
     beq @@end_of_clip
@@ -924,39 +923,22 @@ lane_slot_y_coords:
     rts
 
     @@process_row:
-    tay
+    ora #0
+    beq ++ ; just a delay, no targets
+    jsr prng
+    and #$0f
+    bne +
+    ora #1
+  + cmp #12
+    bcc ++
+    sbc #4
+ ++ tay
     lda @@lanes_specifier_mask,y
     ldx #0
     @@lane_loop:
     lsr
     bcc @@next
     pha ; save lanes mask
-    lda #1
-    jsr read_target_data_bits ; read normal/extended type bit
-    lsr ; if it's zero, it's a normal target (type 0)
-    bcc @@add_normal
-    ; special type
-    lda #3
-    jsr read_target_data_bits ; type - 1
-    clc : adc #1
-    ldy game_type
-    cpy #2 ; versus?
-    beq +
-    ldy play_mode
-    bne + ; clip mode?
-    beq ++
-  + cmp #5
-    bcc ++
-    sbc #5 ; letter -> normal, fake skull -> skull
- ++ asl : asl : asl
-    sta tmp
-    txa ; lane index
-    pha
-    ora tmp
-    ldy #1 ; duration
-    jsr add_target
-    jmp @@done_adding
-    @@add_normal:
     txa ; lane index
     pha
     ; TODO - in boss mode, it becomes a skull (ora #$08) -- unless it is a lane switcher
@@ -1029,14 +1011,15 @@ lane_slot_y_coords:
 .db %00000 ; 0 - none
 .db %00001 ; 1 - left
 .db %00010 ; 2 - right
-.db %00100 ; 3 - select
-.db %01000 ; 4 - B
-.db %10000 ; 5 - A
-.db %01001 ; 6 - left + B
-.db %10001 ; 7 - left + A
-.db %01010 ; 8 - right + B
-.db %10010 ; 9 - right + A
-.db %11000 ; 10 - B + A
+.db %01000 ; 3 - B
+.db %10000 ; 4 - A
+.db %01001 ; 5 - left + B
+.db %10001 ; 6 - left + A
+.db %01010 ; 7 - right + B
+.db %10010 ; 8 - right + A
+.db %11000 ; 9 - B + A
+.db %11001 ; 10 - left + B + A
+.db %11010 ; 11 - right + B + A
 .endp
 
 .ifdef DEBUG_TARGET_DATA_TIMER

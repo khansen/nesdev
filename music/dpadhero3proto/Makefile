@@ -47,7 +47,7 @@ OBJS = $(COMMON_OBJS) $(SOUND_OBJS) \
     main.o \
     songtable.o \
     song.o \
-	songtargets.o \
+	songcues.o \
 	mutesong.o \
     sfxdata.o \
 	game.o
@@ -147,11 +147,11 @@ song.o: song.asm song.inc
 song.inc: song.xm instruments.map
 	$(XM2NES) --channels=0,1,2,3 --instruments-map=instruments.map $< > $@
 
-songtargets.o: songtargets.asm songtargets.inc
+songcues.o: songcues.asm songcues.inc
 	$(XASM) $< -o $@
 
-songtargets.inc: song.xm
-	$(XM2BTN) --dump-statistics $< --output=$@
+songcues.inc: song.xm
+	$(XM2BTN) $< --output=$@
 
 mutesong.o: mutesong.asm mutesong.inc
 	$(XASM) $< -o $@
@@ -168,7 +168,7 @@ sfxdata.o: sfxdata.asm
 .PHONY: clean
 
 clean:
-	-rm -f $(BINFILE) $(OBJS) song.inc songtargets.inc mutesong.inc
+	-rm -f $(BINFILE) $(OBJS) song.inc songcues.inc mutesong.inc
 
 play: $(BINFILE)
 	fceux $(BINFILE)

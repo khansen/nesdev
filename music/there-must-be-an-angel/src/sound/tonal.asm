@@ -49,10 +49,11 @@ play_note_callback .ptr
     beq     +
     jsr     fetch_pattern_byte
     sta     mixer.tonals.effect.slide.amount,x      ; this is a union
+    ldy     mixer.tonals.effect.kind,x
+    cpy     #VIBRATO_EFFECT
+    bne     +
     lda     #0
-    lda     mixer.tonals.effect.vibrato.delay,x
     sta     mixer.tonals.effect.vibrato.counter,x
-    sta     mixer.tonals.effect.vibrato.pos,x
   + sec
     rts
 

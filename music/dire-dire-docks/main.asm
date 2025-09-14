@@ -59,8 +59,6 @@ objects_arena .object[MAX_OBJECTS]
     sta ppu.ctrl0
     lda #6 ; clip off
     sta ppu.ctrl1
-;    lda #250
-    sta ppu.scroll_x
 
     ldcay @@palette
     jsr set_palette

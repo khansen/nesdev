@@ -553,7 +553,7 @@ db $27, $F6, 1, $5F
     bcc @@no_spawn
     lda #0
     sta spawn_creature_timer
-    jmp spawn_creature
+    beq spawn_creature
 @@no_spawn:
     sta spawn_creature_timer
     rts
@@ -631,7 +631,7 @@ db $27, $F6, 1, $5F
     bcc @@no_spawn
     lda #0
     sta spawn_bubble_timer
-    jmp spawn_bubble
+    beq spawn_bubble
 @@no_spawn:
     sta spawn_bubble_timer
     rts
@@ -1256,7 +1256,7 @@ db $27, $F6, 1, $5F
     lda [current_object], y
     and #4
     bne +
-    jmp draw_fish_right_frame0
+    beq draw_fish_right_frame0
   + jmp draw_fish_right_frame1
 .endp
 
@@ -1543,7 +1543,7 @@ db $27, $F6, 1, $5F
     @@no_propel:
     jsr convert_object_world_position_to_screen_position
     bmi @@kill_it
-    jmp draw_blooper_frame1
+    bpl draw_blooper_frame1
 .endp
 
 .proc draw_blooper_frame0
@@ -1714,7 +1714,7 @@ db $27, $F6, 1, $5F
     lda [current_object], y
     cmp #9
     bcc @@burst_it
-    jmp draw_bubble_frame0
+    bcs draw_bubble_frame0
     @@is_bursting:
     clc
     adc #1

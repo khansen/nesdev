@@ -2,7 +2,7 @@
 BASESRCDIR = ./src
 
 # assembler (xasm) flags
-AFLAGS = --debug -I. -I$(BASESRCDIR) -DNO_SFX
+AFLAGS = --debug -I. -I$(BASESRCDIR) -DNO_SFX -DNO_JOYPAD1
 
 # linker (xlnk) flags
 LFLAGS = 

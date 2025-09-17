@@ -247,8 +247,8 @@ db $27, $F6, 1, $5F
 .db $24, $E2, 12 : .char "Remixed with"
 .db $25, $24, 9  : .char "in Norway"
 
-.db $25, $91, 12 : .char "Use D-pad to"
-.db $25, $D0, 15 : .char "toggle channels"
+.db $25, $8D, 19 : .char "Use D-pad, A & B to"
+.db $25, $CF, 15 : .char "toggle channels"
 
 .db 0
 
@@ -390,6 +390,14 @@ db $27, $F6, 1, $5F
     eor #8
     sta sound_status
     @@right_not_pressed:
+    lda joypad0_posedge
+    and #(JOYPAD_BUTTON_A | JOYPAD_BUTTON_B)
+    beq @@a_or_b_not_pressed
+    ; toggle channel 5
+    lda sound_status
+    eor #16
+    sta sound_status
+    @@a_or_b_not_pressed:
     rts
 .endp
 

@@ -1,0 +1,6 @@
+*.o
+*.nes
+packchr.chr
+packchr.nam
+packnam.dat
+.DS_Store

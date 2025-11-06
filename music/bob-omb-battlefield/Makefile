@@ -1,3 +1,5 @@
+.DELETE_ON_ERROR:
+
 # the path to the directory that contains the shared source code
 BASESRCDIR = ./src
 

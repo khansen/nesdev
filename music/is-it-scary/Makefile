@@ -144,7 +144,7 @@ song.inc: song.xm instruments.map
 dmcdata.o: dmcdata.asm
 	$(XASM) $< -o $@
 
-packchr.chr: ghosts.chr
+packchr.chr packchr.nam: ghosts.chr
 	packchr --null-tile=0 --nametable-base=56 $<
 
 packnam.dat: packchr.nam
